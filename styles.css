@@ -1,0 +1,46 @@
+html,
+body {
+  margin: 0;
+  padding: 0;
+  background-color: cornflowerblue;
+}
+
+.board {
+  width: 500px;
+  height: 500px;
+  background-color: white;
+  border-radius: 1rem;
+  display: grid;
+  grid-template-rows: auto;
+  grid-template-columns: repeat(3, auto);
+  padding: 1rem;
+}
+
+.container {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.square {
+  background-color: gainsboro;
+  border-radius: .5rem;
+  margin: .5rem;
+}
+
+/*styling for standard tic tac toe board*/
+/*.square {
+  border-style: solid;
+  border-color: cornflowerblue;
+  border-width: 0px 1px 1px 0;
+}
+
+.square:nth-last-child(-n+3) {
+  border-bottom: 0;
+}
+
+.square:nth-last-child(-n+3):last-child,
+.square:nth-child(3), .square:nth-child(6) {
+  border-right: 0;
+}*/
