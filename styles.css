@@ -1,8 +1,22 @@
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:300,700');
+
 html,
 body {
   margin: 0;
   padding: 0;
   background-color: cornflowerblue;
+  font-family: 'Open Sans', sans-serif;
+}
+
+a, a:link, a:hover,
+a:visited {
+  color: royalblue;
+  font-size: 13px;
+}
+
+footer {
+  text-align: center;
+  margin: .5rem;
 }
 
 .board {
@@ -27,6 +41,30 @@ body {
   background-color: gainsboro;
   border-radius: .5rem;
   margin: .5rem;
+}
+
+.modal {
+  background-color: white;
+  border-radius: .5rem;
+  position: absolute;
+  z-index: 2;
+  padding: 1rem;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.modal > span {
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.modal-backdrop {
+  background-color: rgba(0,0,0,0.1);
+  position: absolute;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
 }
 
 /*styling for standard tic tac toe board*/
