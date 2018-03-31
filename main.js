@@ -2,7 +2,7 @@
   Tic Tac Toe Game by Alexis Okamura
 */
 var tictactoe = (function() {
-  var player, comp, winner = '', board, activePlayer, result;
+  var player, comp, board, activePlayer, result;
   var x = '<i class="fa-inverse fa fa-times fa-5x"></i>';
   var o = '<i class="fa-inverse fa fa-circle-o fa-5x"></i>';
   var winningLines = [
@@ -20,6 +20,7 @@ var tictactoe = (function() {
     player = 1;
     comp = -1;
     $('.modal-backdrop').hide();
+    $('.start-game').hide();
     startGame();
   });
 
@@ -27,6 +28,7 @@ var tictactoe = (function() {
     player = -1;
     comp = 1;
     $('.modal-backdrop').hide();
+    $('.start-game').hide();
     startGame();
   });
 
@@ -36,7 +38,6 @@ var tictactoe = (function() {
   }
 
   function takeTurns() {
-    console.log($('.square:empty'));
     $('.square:empty').click(function(e) {
       if(activePlayer === 'player') {
         if(board[e.target.id] === 0) {
@@ -44,7 +45,7 @@ var tictactoe = (function() {
           e.target.innerHTML = player === 1 ? x : o;
           moves++;
           activePlayer = 'comp';
-          gameOver();
+          checkBoard();
         }
 
       } else {
@@ -53,13 +54,13 @@ var tictactoe = (function() {
           e.target.innerHTML = comp === 1 ? x : o;
           moves++;
           activePlayer = 'player';
-          gameOver();
+          checkBoard();
         }
       }
     });
   }
 
-  function gameOver() {
+  function checkBoard() {
     if(moves > 4) {
       // iterate through each winning line
       result = parseInt(winningLines.map(function(lines) {
@@ -73,25 +74,29 @@ var tictactoe = (function() {
       }).join());
 
       if(moves === board.length) { // tie
-        winner = 'tie';
-        resetGame();
-        // startGame();
+        gameOver('tie');
       } else if(result === 3) { // determine winner by if player is x or o
-        winner = player === 1 ? 'player' : 'comp';
-        resetGame();
+        gameOver(player === 1 ? 'player' : 'comp');
       } else if(result === -3) {
-        winner = player === -1 ? 'player' : 'comp';
-        resetGame();
+        gameOver(player === -1 ? 'player' : 'comp');
       }
     }
   }
 
+  function gameOver(winner) {
+    $('.modal-backdrop').show();
+    $('.end-game').show();
+    console.log(winner);
+    $('#restart-game').on('click', function() {
+      resetGame();
+      $('.modal-backdrop').hide();
+    });
+  }
+
   function resetGame() {
-    console.log('resetGame');
     board = [0, 0, 0, 0, 0, 0, 0, 0, 0];
     activePlayer = 'player';
     moves = 0;
-    winner = '';
     result = 0;
 
     $('.square').each(function(id) {
