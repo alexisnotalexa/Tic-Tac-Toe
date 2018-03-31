@@ -25,8 +25,8 @@ footer {
   background-color: white;
   border-radius: 1rem;
   display: grid;
-  grid-template-rows: auto;
-  grid-template-columns: repeat(3, auto);
+  grid-template: repeat(3, 1fr) / repeat(3, 1fr);
+  grid-gap: .5rem;
   padding: 1rem;
 }
 
@@ -40,7 +40,9 @@ footer {
 .square {
   background-color: gainsboro;
   border-radius: .5rem;
-  margin: .5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .modal {
@@ -85,10 +87,10 @@ footer {
   outline: none;
 }
 
-.x { background-color: tomato; }
-.o { background-color: cornflowerblue; }
-.x:hover { background-color: #e7593f; }
-.o:hover { background-color: #5984d3; }
+#x { background-color: tomato; }
+#o { background-color: cornflowerblue; }
+#x:hover { background-color: #e7593f; }
+#o:hover { background-color: #5984d3; }
 
 /*styling for standard tic tac toe board*/
 /*.square {
