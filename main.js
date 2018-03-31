@@ -47,7 +47,6 @@ var tictactoe = (function() {
           activePlayer = 'comp';
           checkBoard();
         }
-
       } else {
         if(board[e.target.id] === 0) {
           board[e.target.id] = comp;
@@ -84,9 +83,15 @@ var tictactoe = (function() {
   }
 
   function gameOver(winner) {
+    if(winner === 'player') {
+      $('#winner').html('You won!');
+    } else if(winner === 'comp') {
+      $('#winner').html('You lost!');
+    } else {
+      $('#winner').html('It was a tie');
+    }
     $('.modal-backdrop').show();
     $('.end-game').show();
-    console.log(winner);
     $('#restart-game').on('click', function() {
       resetGame();
       $('.modal-backdrop').hide();
