@@ -2,9 +2,8 @@
   Tic Tac Toe Game by Alexis Okamura
 */
 var tictactoe = (function() {
-  var player, comp, board, activePlayer, result;
-  var x = '<i class="fa-inverse fa fa-times fa-5x"></i>';
-  var o = '<i class="fa-inverse fa fa-circle-o fa-5x"></i>';
+  var activePlayer = 'player';
+  var board = [0, 0, 0, 0, 0, 0, 0, 0, 0];
   var winningLines = [
     [0, 1, 2],
     [3, 4, 5],
@@ -15,6 +14,10 @@ var tictactoe = (function() {
     [0, 4, 8],
     [2, 4, 6]
   ];
+  var moves = 0;
+  var player, comp;
+  var x = '<i class="fa-inverse fa fa-times fa-5x"></i>';
+  var o = '<i class="fa-inverse fa fa-circle-o fa-5x"></i>';
 
   $('#x').on('click', function() {
     player = 1;
@@ -33,12 +36,7 @@ var tictactoe = (function() {
   });
 
   function startGame() {
-    resetGame();
-    takeTurns();
-  }
-
-  function takeTurns() {
-    $('.square:empty').click(function(e) {
+    $('.square:empty').on('click', function(e) {
       if(activePlayer === 'player') {
         if(board[e.target.id] === 0) {
           board[e.target.id] = player;
@@ -62,7 +60,7 @@ var tictactoe = (function() {
   function checkBoard() {
     if(moves > 4) {
       // iterate through each winning line
-      result = parseInt(winningLines.map(function(lines) {
+      var result = parseInt(winningLines.map(function(lines) {
         return lines.map(function(line) { // get value in each square
           return board[line];
         }).reduce(function(prev, cur) { // add up values in each line
@@ -102,9 +100,8 @@ var tictactoe = (function() {
     board = [0, 0, 0, 0, 0, 0, 0, 0, 0];
     activePlayer = 'player';
     moves = 0;
-    result = 0;
 
-    $('.square').each(function(id) {
+    $('.square').each(function() {
       $(this).empty();
     });
   }
