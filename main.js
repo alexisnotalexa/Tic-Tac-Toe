@@ -2,8 +2,7 @@
   Tic Tac Toe Game by Alexis Okamura
 */
 var tictactoe = (function() {
-  var test;
-  var activePlayer = 'player';
+  var compMove; // stores the index of the computer's move
   var player = { id: 1 }, comp = { id: -1 };
   var board = [0, 0, 0, 0, 0, 0, 0, 0, 0];
   var winningLines = [
@@ -16,8 +15,8 @@ var tictactoe = (function() {
     [0, 4, 8],
     [2, 4, 6]
   ];
-  var moves = 0;
 
+  /* Assigns player + comp's symbol according to what symbol they click */
   $('#x').on('click', function() {
     player.symbol = '<i class="fa-inverse fa fa-times fa-5x"></i>';
     comp.symbol = '<i class="fa-inverse fa fa-circle-o fa-5x"></i>';
@@ -26,6 +25,7 @@ var tictactoe = (function() {
     startGame();
   });
 
+  /* Assigns player + comp's symbol according to what symbol they click */
   $('#o').on('click', function() {
     player.symbol = '<i class="fa-inverse fa fa-circle-o fa-5x"></i>';
     comp.symbol = '<i class="fa-inverse fa fa-times fa-5x"></i>';
@@ -35,136 +35,29 @@ var tictactoe = (function() {
   });
 
   function startGame() {
+    resetGame();
     playersTurn();
-    // $('.square').click(function(e) {
-    //   console.log(e.target);
-    //   if(activePlayer === 'player') {
-    //     moves++;
-    //     board[e.target.id] = player;
-    //     $(this).addClass('active').html(player === 1 ? x : o);
-    //     activePlayer = 'comp';
-    //     checkBoard();
-    //     $(this).off();
-    //     console.log(board);
-    //   } else {
-    //     moves++;
-    //     board[e.target.id] = comp;
-    //     $(this).addClass('active').html(comp === 1 ? x : o);
-    //     activePlayer = 'player';
-    //     checkBoard();
-    //     $(this).off();
-    //     console.log(board);
-    //   }
-    // });
-
-    // $('.square').hover(function(e) {
-    //   if(!$(this).hasClass('active')) {
-    //     if(activePlayer === 'player') {
-    //       console.log(e.target.id);
-    //       $(this).html(player === 1 ? x : o);
-    //       console.log($(this).children()[0].attr('id', e.target.id));
-    //     } else {
-    //       $(this).html(comp === 1 ? x : o).attr('id', e.target.id);
-    //     }
-    //   }
-    // }, function(e) {
-    //   if(!$(this).hasClass('active')) {
-    //     $(this).empty();
-    //   }
-    // });
-    // $('.square').on('click mouseover', function(e) {
-    //   if(board[e.target.id] === 0) {
-    //     console.log(e.type);
-    //     if(e.type === 'click') {
-    //       board[e.target.id] = player;
-    //       $(this).html(player === 1 ? x : o);
-    //     } else {
-    //       $(this).html(player === 1 ? x : o);
-    //     }
-    //   }
-    // });
-    // $('.square').hover(function(e) {
-    //   if(board[e.target.id] === 0) {
-    //     if(activePlayer === 'player') {
-    //       $(this).html(player === 1 ? x : o);
-    //     } else {
-    //       $(this).html(comp === 1 ? x : o);
-    //     }
-    //   }
-    // }, function(e) {
-    //   if(board[e.target.id] === 0) {
-    //     $(this).empty();
-    //   }
-    // });
-
-    // $('.square').click(function(e) {
-    //   if(board[e.target.id] === 0) {
-    //     if(activePlayer === 'player') {
-    //       board[e.target.id] = player.id;
-    //       e.target.innerHTML = player.symbol;
-    //       moves++;
-    //       activePlayer = 'comp';
-    //       checkBoard();
-    //     } else {
-    //       board[e.target.id] = comp.id;
-    //       e.target.innerHTML = comp.symbol;
-    //       moves++;
-    //       activePlayer = 'player';
-    //       checkBoard();
-    //     }
-    //   }
-    // });
-    // $('.square').click(function(e) {
-    //   if(board[e.target.id] === 0) {
-    //     if(activePlayer === 'player') {
-    //       moves++;
-    //       board[e.target.id] = player.id;
-    //       $(this).html(player.symbol);
-    //       activePlayer = 'comp';
-    //     } else {
-
-    //     }
-    //   }
-    // });
   }
 
-  function playersTurn() {
-    $('.square').on('click', function(e) {
-      if(board[e.target.id] === 0) {
-        moves++;
-        board[e.target.id] = player.id;
-        $(this).html(player.symbol);
-        $(this).off();
-        computersTurn();
-      }
-    });
-  }
-
-  function computersTurn() {
-    minmax(board, 'comp');
-    board[test] = comp.id;
-    $(`#${test}`).html(comp.symbol);
-    playersTurn();
-    // console.log(check(board));
-    // console.log(minmax(board, 'comp'));
-  }
-
+  /* Checks the current state of the board passed in */
   function check(state) {
+    // counts how many moves have been played already
     var moves = state.reduce(function(prev, cur) {
       return Math.abs(prev) + Math.abs(cur);
     });
 
+    // totals up and finds the current highest score
     var result = parseInt(winningLines.map(function(lines) {
       return lines.map(function(line) { // get value in each square
         return state[line];
       }).reduce(function(prev, cur) { // add up values on each line
         return prev + cur;
       });
-    }).filter(function(total) { // find + return winner
+    }).filter(function(total) { // find + return winning score
       return Math.abs(total) === 3;
     }).join());
 
-    // check result
+    // checks moves + result
     if(moves === 9) {
       return 'tie';
     } else if(result === 3) {
@@ -176,37 +69,54 @@ var tictactoe = (function() {
     }
   }
 
+  /* Displays the outcome of the game */
   function gameOver(winner) {
-    console.log(winner);
-    // if(winner === 'player') {
-    //   $('#winner').html('You won!');
-    // } else if(winner === 'comp') {
-    //   $('#winner').html('You lost!');
-    // } else {
-    //   $('#winner').html('It was a tie');
-    // }
-    // $('.modal-backdrop').show();
-    // $('.end-game').show();
-    // $('#restart-game').on('click', function() {
-    //   resetGame();
-    //   $('.modal-backdrop').hide();
-    // });
+    if(winner === 'win') {
+      $('#winner').html('You won!');
+    } else if(winner === 'lose') {
+      $('#winner').html('You lost!');
+    } else {
+      $('#winner').html('It was a tie');
+    }
+    $('.modal-backdrop').show();
+    $('.end-game').show();
+    $('#restart-game').on('click', function() {
+      // resetGame();
+      startGame();
+      $('.modal-backdrop').hide();
+    });
   }
 
+  /* Resets the board to its original state */
   function resetGame() {
     board = [0, 0, 0, 0, 0, 0, 0, 0, 0];
-    activePlayer = 'player';
-    moves = 0;
-
+    // clears anything in each square
     $('.square').each(function() {
       $(this).empty();
     });
   }
 
+  function playersTurn() {
+    $('.square').on('click', function(e) {
+      if(board[e.target.id] === 0) {
+        board[e.target.id] = player.id;
+        $(this).html(player.symbol);
+        check(board) ? gameOver(check(board)) : computersTurn();
+      }
+    });
+  }
+
+  function computersTurn() {
+    minmax(board, 'comp'); // runs minmax to find optimal move
+    board[compMove] = comp.id;
+    $(`#${compMove}`).html(comp.symbol);
+    check(board) ? gameOver(check(board)) : playersTurn();
+  }
+
+  /* Returns an array of available/empty squares */
   function emptySquares(state) {
+    // return indexes of empty squares
     return state.map(function(square, index) {
-      // iterate through each square, if square is not taken
-      // return the index of that square
       return square === 0 ? index : false;
     }).filter(function(index) {
       // filter through the indexes and only return valid ones
@@ -234,10 +144,10 @@ var tictactoe = (function() {
 
     // return the best move
     if(player === 'comp') {
-      test = moves[scores.indexOf(Math.max.apply(Math, scores))];
+      compMove = moves[scores.indexOf(Math.max.apply(Math, scores))];
       return Math.max.apply(Math, scores);
     } else {
-      test = moves[scores.indexOf(Math.min.apply(Math, scores))];
+      compMove = moves[scores.indexOf(Math.min.apply(Math, scores))];
       return Math.min.apply(Math, scores);
     }
   }
