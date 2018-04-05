@@ -93,6 +93,7 @@ var tictactoe = (function() {
     // clears anything in each square
     $('.square').each(function() {
       $(this).empty();
+      $(this).removeClass('blue red');
     });
   }
 
@@ -100,7 +101,7 @@ var tictactoe = (function() {
     $('.square').on('click', function(e) {
       if(board[e.target.id] === 0) {
         board[e.target.id] = player.id;
-        $(this).html(player.symbol);
+        $(this).addClass('red').html(player.symbol);
         check(board) ? gameOver(check(board)) : computersTurn();
       }
     });
@@ -109,7 +110,7 @@ var tictactoe = (function() {
   function computersTurn() {
     minmax(board, 'comp'); // runs minmax to find optimal move
     board[compMove] = comp.id;
-    $(`#${compMove}`).html(comp.symbol);
+    $(`#${compMove}`).addClass('blue').html(comp.symbol);
     check(board) ? gameOver(check(board)) : playersTurn();
   }
 

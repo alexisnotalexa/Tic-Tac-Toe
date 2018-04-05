@@ -4,13 +4,13 @@ html,
 body {
   margin: 0;
   padding: 0;
-  background-color: cornflowerblue;
+  background-color: lightskyblue;
   font-family: 'Open Sans', sans-serif;
 }
 
 a, a:link, a:hover,
 a:visited {
-  color: royalblue;
+  color: cornflowerblue;
   font-size: 13px;
 }
 
@@ -91,6 +91,9 @@ footer {
 #o { background-color: cornflowerblue; }
 #x:hover { background-color: #e7593f; }
 #o:hover { background-color: #5984d3; }
+
+.red { background-color: coral; }
+.blue { background-color: cornflowerblue; }
 
 /*styling for standard tic tac toe board*/
 /*.square {
