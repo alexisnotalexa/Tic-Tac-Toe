@@ -20,6 +20,8 @@ var tictactoe = (function() {
   $('#x').on('click', function() {
     player.symbol = '<i class="fa-inverse fa fa-times fa-5x symbol"></i>';
     comp.symbol = '<i class="fa-inverse fa fa-circle-o fa-5x symbol"></i>';
+    player.color = 'red';
+    comp.color = 'blue';
     $('.modal-backdrop').hide();
     $('.start-game').hide();
     startGame();
@@ -27,8 +29,10 @@ var tictactoe = (function() {
 
   /* Assigns player + comp's symbol according to what symbol they click */
   $('#o').on('click', function() {
-    player.symbol = '<i class="fa-inverse fa fa-circle-o fa-5x"></i>';
-    comp.symbol = '<i class="fa-inverse fa fa-times fa-5x"></i>';
+    player.symbol = '<i class="fa-inverse fa fa-circle-o fa-5x symbol"></i>';
+    comp.symbol = '<i class="fa-inverse fa fa-times fa-5x symbol"></i>';
+    player.color = 'blue';
+    comp.color = 'red';
     $('.modal-backdrop').hide();
     $('.start-game').hide();
     startGame();
@@ -58,12 +62,12 @@ var tictactoe = (function() {
     }).join());
 
     // checks moves + result
-    if(moves === 9) {
-      return 'tie';
-    } else if(result === 3) {
+    if(result === 3) {
       return 'win';
     } else if(result === -3) {
       return 'lose';
+    } else if(moves === 9) {
+      return 'tie';
     } else {
       return false;
     }
@@ -104,7 +108,7 @@ var tictactoe = (function() {
     $('.square').on('click', function(e) {
       if(board[e.target.id] === 0) {
         board[e.target.id] = player.id;
-        $(this).addClass('red').html(player.symbol);
+        $(this).addClass(player.color).html(player.symbol);
         check(board) ? gameOver(check(board)) : setTimeout(computersTurn, 300);
       }
     });
@@ -113,7 +117,7 @@ var tictactoe = (function() {
   function computersTurn() {
     minmax(board, 'comp'); // runs minmax to find optimal move
     board[compMove] = comp.id;
-    $(`#${compMove}`).addClass('blue').html(comp.symbol);
+    $(`#${compMove}`).addClass(comp.color).html(comp.symbol);
     check(board) ? gameOver(check(board)) : playersTurn();
   }
 
@@ -128,6 +132,9 @@ var tictactoe = (function() {
     });
   }
 
+  // referenced min-max algorithm from here:
+  // https://www.neverstopbuilding.com/blog/2013/12/13/tic-tac-toe-understanding-the-minimax-algorithm13/
+  // and big help from: https://codepen.io/thepeted/full/qOJVyK/
   function minmax(state, player) {
     var result = check(state);
     if(result === 'lose') {
