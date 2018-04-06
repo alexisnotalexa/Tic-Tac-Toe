@@ -4,17 +4,24 @@ html,
 body {
   margin: 0;
   padding: 0;
-  background-color: lightskyblue;
+  background-color: #c3e9e2;
   font-family: 'Open Sans', sans-serif;
 }
 
 a, a:link, a:hover,
 a:visited {
-  color: cornflowerblue;
-  font-size: 13px;
+  color: white;
+  font-size: 11px;
+  letter-spacing: 1px;
+}
+
+i {
+  text-shadow: 0 0 15px rgba(0,0,0,0.1);
 }
 
 footer {
+  color: white;
+  font-size: 11px;
   text-align: center;
   margin: .5rem;
 }
@@ -43,6 +50,7 @@ footer {
   display: flex;
   justify-content: center;
   align-items: center;
+  transition: background-color .3s linear;
 }
 
 .modal {
@@ -56,6 +64,10 @@ footer {
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
+
+  display: flex;
+  flex-direction: column;
+  text-align: center;
 }
 
 .modal > span {
@@ -70,6 +82,8 @@ footer {
   z-index: 1;
   width: 100%;
   height: 100%;
+  opacity: 1;
+  animation: fadein .5s ease-in;
 }
 
 .modal__selector {
@@ -87,13 +101,79 @@ footer {
   outline: none;
 }
 
-#x { background-color: tomato; }
-#o { background-color: cornflowerblue; }
+.start-game {
+  animation: slide-in .5s ease-in-out 1;
+}
+
+.symbol {
+  animation: pop-in .5s ease-in-out 1;
+}
+
+#restart-game, #restart-game:focus {
+  background-color: gold;
+  border: 0;
+  border-radius: 1rem;
+  box-shadow: 0px 2px 0 rgba(0,0,0,0.05);
+  font-size: .5rem;
+  padding: .5rem;
+  text-transform: uppercase;
+  outline: none;
+}
+
+#restart-game:hover {
+  background-color: #f2ce0d;
+}
+
+#winner {
+  margin-bottom: 1.5rem;
+}
+
+#emoji {
+  font-size: 3rem;
+  animation: wave 1s ease-in-out 1;
+}
+
+#x {
+  background-color: coral;
+  transition: background-color 0.5s ease;
+}
+#o {
+  background-color: cornflowerblue;
+  transition: background-color 0.5s ease;
+}
+
 #x:hover { background-color: #e7593f; }
 #o:hover { background-color: #5984d3; }
 
 .red { background-color: coral; }
 .blue { background-color: cornflowerblue; }
+
+/*CSS ANIMATIONS*/
+@keyframes pop-in {
+  0% {transform: scale(0);}
+  75% {transform: scale(1.3);}
+  100% {transform: scale(1);}
+}
+
+@keyframes fadein {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes slide-in {
+  0% { margin-top: 30%; }
+  25% { margin-top: -5%; }
+  75% { margin-top: 2%; }
+  100% { margin-top: 0; }
+}
+
+@keyframes wave {
+  0%   { transform: rotate(0deg); }
+  25%  { transform: rotate(-20deg); }
+  50%  { transform: rotate(0deg); }
+  75%  { transform: rotate(20deg); }
+  100% { transform: rotate(0deg); }
+}
 
 /*styling for standard tic tac toe board*/
 /*.square {

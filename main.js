@@ -18,8 +18,8 @@ var tictactoe = (function() {
 
   /* Assigns player + comp's symbol according to what symbol they click */
   $('#x').on('click', function() {
-    player.symbol = '<i class="fa-inverse fa fa-times fa-5x"></i>';
-    comp.symbol = '<i class="fa-inverse fa fa-circle-o fa-5x"></i>';
+    player.symbol = '<i class="fa-inverse fa fa-times fa-5x symbol"></i>';
+    comp.symbol = '<i class="fa-inverse fa fa-circle-o fa-5x symbol"></i>';
     $('.modal-backdrop').hide();
     $('.start-game').hide();
     startGame();
@@ -73,17 +73,20 @@ var tictactoe = (function() {
   function gameOver(winner) {
     if(winner === 'win') {
       $('#winner').html('You won!');
+      $('#emoji').html('🎉');
     } else if(winner === 'lose') {
       $('#winner').html('You lost!');
+      $('#emoji').html('👎');
     } else {
       $('#winner').html('It was a tie');
+      $('#emoji').text('🤷‍');
     }
     $('.modal-backdrop').show();
     $('.end-game').show();
     $('#restart-game').on('click', function() {
-      // resetGame();
-      startGame();
       $('.modal-backdrop').hide();
+      $('.modal').hide();
+      startGame();
     });
   }
 
@@ -102,7 +105,7 @@ var tictactoe = (function() {
       if(board[e.target.id] === 0) {
         board[e.target.id] = player.id;
         $(this).addClass('red').html(player.symbol);
-        check(board) ? gameOver(check(board)) : computersTurn();
+        check(board) ? gameOver(check(board)) : setTimeout(computersTurn, 300);
       }
     });
   }
